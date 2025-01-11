@@ -7,6 +7,48 @@
         <link rel="stylesheet" href="./style.css" />
     </head>
     <body>
+        <h1>Bondespelet</h1>
+        <!-- Rulla tärnings sektion -->
+        <div id="rollDiceSection">
+            <button id="rollDiceButton">Rulla tärningen</button>
+            <div id="message" class="message"></div>
+            <div id="rollAgainButtons" class="buttons" style="display: none">
+                <button id="rollAgain">Rulla igen</button>
+                <button id="endTurn">Avsluta tur</button>
+            </div>
+        </div>
+        <!--  Planteringsdag sektion -->
+        <div id="plantingDay" style="display: none">
+            <h3>Planteringsdag!</h3>
+            <div id="plantDayMessage" class="message"></div>
+            <div id="plantAmountCards">
+                <button class="plantCard" id="plantCard1">Kort 1</button>
+                <button class="plantCard" id="plantCard2">Kort 2</button>
+                <button class="plantCard" id="plantCard3">Kort 3</button>
+            </div>
+        </div>
+        <div id="selectedCard" style="display: none">
+            <div id="plantPossibleMessage" class="message"></div>
+            <div id="plantingMessage" class="message"></div>
+            <p class="message plantMessage">Du kan plantera:</p>
+            <div id="cropButtons"></div>
+            <!-- Denna div ska finnas i HTML -->
+        </div>
+
+        <!--  resources sektion -->
+        <div class="resources">
+            <h2>Spelarens resurser</h2>
+            <h3>Plats på brädet: <span id="placeOnBoard"></span></h3>
+            <h3>Gård: <span id="farmType"></span></h3>
+            <h3>Pengar: <span id="money"></span></h3>
+            <div id="cropsPlanted" class="crops-planted">
+                <p class="crops">Potatis: <span id="potatis">0</span></p>
+                <p class="crops">Betor: <span id="betor">0</span></p>
+                <p class="crops">Korn: <span id="korn">0</span></p>
+                <p class="crops">Vete: <span id="vete">0</span></p>
+                <p class="crops">Råg: <span id="rag">0</span></p>
+            </div>
+        </div>
         <script src="./script.js"></script>
     </body>
 </html>

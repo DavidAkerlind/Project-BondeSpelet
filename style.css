@@ -1,0 +1,50 @@
+* {
+    box-sizing: border-box;
+    margin: 1rem;
+    padding: 0;
+    border-radius: 2px;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.message {
+    text-align: center;
+    padding: 0.5rem;
+    background-color: rgb(140, 231, 140);
+}
+.plantMessage {
+    font-size: 1.2rem;
+    font-weight: 600;
+    background-color: cadetblue;
+}
+button {
+    align-self: center;
+    padding: 1rem;
+    background-color: rgb(191, 238, 245);
+
+    border: none;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: rgb(135, 213, 225);
+    cursor: pointer;
+    transform: scale(1.05); /* Lägger till en liten förstoring vid hover */
+}
+
+.crops-planted {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.crops {
+    font-size: 1.2rem;
+    background-color: rgb(246, 246, 174);
+    padding: 1rem;
+    border: 2px black solid;
+}
