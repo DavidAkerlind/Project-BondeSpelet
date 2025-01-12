@@ -96,14 +96,30 @@ const eventCards = {
             message:
                 "Ditt jordburk brann ned. Betala: Torp: 50.000kr, Gård: 200.000kr, Herrgård: 750.000kr. Om du har försäkrning få samma belopp från banken",
             effect: () => {
-                if (!player1.hasInsurance) {
-                    if (player1.farmType === "Torp") {
-                        player1;
-                    } else if (player1.farmType === "Gård") {
-                    }
-                } else {
-                    player1.money += 100000;
+                let cost = 0;
+
+                if (player1.farmType === "Torp") {
+                    cost = 50000;
+                } else if (player1.farmType === "Gård") {
+                    cost = 200000;
+                } else if (player1.farmType === "Herrgård") {
+                    cost = 750000;
                 }
+
+                if (player1.hasInsurance) {
+                    player1.money += cost;
+                    console.log(
+                        `Du har försäkring! Du får ${cost} kr från banken.`
+                    );
+                } else {
+                    player1.money -= cost;
+                    console.log(
+                        `Ingen försäkring! Du betalar ${cost} kr själv.`
+                    );
+                }
+                console.log(
+                    `Spelarens pengar efter branden: ${player1.money} kr`
+                );
             },
         },
     ],
