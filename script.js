@@ -171,6 +171,36 @@ function plantCrops(crop) {
     }
 }
 
+function checkCardDay(placeOnBoard) {
+    for (let i = 0; i < cardDays.length; i++) {
+        if (placeOnBoard === cardDays[i]) {
+            let season = checkSeason(placeOnBoard);
+            console.log("Du hamnade på en Röd dag! " + placeOnBoard + season);
+        }
+    }
+}
+
+function checkSeason(placeOnBoard) {
+    switch (true) {
+        case placeOnBoard === 109:
+            console.log(season[0]);
+            break;
+        case placeOnBoard > 0 && placeOnBoard <= 27:
+            console.log(season[1]);
+            break;
+        case placeOnBoard > 27 && placeOnBoard <= 54:
+            console.log(season[2]);
+            break;
+        case placeOnBoard > 54 && placeOnBoard <= 81:
+            console.log(season[3]);
+            break;
+        case placeOnBoard > 81 && placeOnBoard <= 108:
+            console.log(season[4]);
+            break;
+    }
+}
+
+function cardDay(placeOnBoard) {}
 // =========================
 // ===== Själva spelet======
 // =========================
@@ -181,6 +211,7 @@ document.getElementById("rollDiceButton").addEventListener("click", () => {
     updatePlayerInfo();
     player1.placeOnBoard = rollDice();
     checkPlantDay(player1.placeOnBoard);
+    checkCardDay(player1.placeOnBoard);
 });
 
 document.addEventListener("DOMContentLoaded", () => {
