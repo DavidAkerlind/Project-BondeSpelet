@@ -149,7 +149,7 @@ const eventCards = {
 
 function rollDice() {
     //let roll = Math.floor(Math.random() * 6) + 1;
-    let roll = 36;
+    let roll = 12;
     player1.placeOnBoard = player1.placeOnBoard + roll;
 
     let rollMessageDiv = document.getElementById("rollMessage");
@@ -329,7 +329,7 @@ function cardDay(placeOnBoard, season) {
     //let randomIndexForCard = Math.floor(
     //    Math.random() * cardsInRightSeason.length         denna är det som ranomiserar vilet kort man får
     // );
-    let randomIndexForCard = 1; // denna väljer just nu vilket kort man får
+    let randomIndexForCard = 2; // denna väljer just nu vilket kort man får
     let chosenCard = cardsInRightSeason[randomIndexForCard];
 
     console.log(
@@ -375,8 +375,8 @@ function removeRandomCrops(amountToRemove) {
         }
 
         if (indicatorSpan) {
-            indicatorSpan.textContent = " -1";
-
+            indicatorSpan.textContent = " -" + amountToRemove;
+            indicatorSpan.style.backgroundColor = "rgb(240, 141, 141)";
             // Ta bort meddelandet efter en viss tid
             setTimeout(() => {
                 indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
@@ -404,6 +404,22 @@ function addRandomCrops(amountToAdd) {
         // Lägg till en enhet av den slumpmässiga grödan
         player1.crops[randomCrop]++;
 
+        let cropSpan = document.getElementById(randomCrop);
+        let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
+
+        if (cropSpan) {
+            cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
+        }
+
+        if (indicatorSpan) {
+            indicatorSpan.textContent = " +" + amountToAdd;
+            indicatorSpan.style.backgroundColor = "rgb(144, 240, 141)";
+
+            // Ta bort meddelandet efter en viss tid
+            setTimeout(() => {
+                indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
+            }, 20000);
+        }
         console.log(`+1 ${randomCrop}`);
     }
 
