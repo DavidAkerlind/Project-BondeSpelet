@@ -141,7 +141,6 @@ const eventCards = {
             effect: () => (player1.money += 500),
         },
     ],
-    // Lägg till för säsong 3 och 4...
 };
 
 // =========================
@@ -150,7 +149,7 @@ const eventCards = {
 
 function rollDice() {
     //let roll = Math.floor(Math.random() * 6) + 1;
-    let roll = 96;
+    let roll = 36;
     player1.placeOnBoard = player1.placeOnBoard + roll;
 
     let rollMessageDiv = document.getElementById("rollMessage");
@@ -326,17 +325,18 @@ function cardDay(placeOnBoard, season) {
         .trim()}, och får dra ett händelsekort! `;
     console.log(`Du är i ${season.substring(1).trim()}`);
 
-    switch (seasonNowNumber) {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        default:
-    }
+    let cardsInRightSeason = eventCards[seasonNowNumber];
+    //let randomIndexForCard = Math.floor(
+    //    Math.random() * cardsInRightSeason.length         denna är det som ranomiserar vilet kort man får
+    // );
+    let randomIndexForCard = 1; // denna väljer just nu vilket kort man får
+    let chosenCard = cardsInRightSeason[randomIndexForCard];
+
+    console.log(
+        `randomIndexForCard: ${randomIndexForCard} cardsInRightSeason: ${cardsInRightSeason} chosenCard: ${chosenCard} message: ${chosenCard.message} }`
+    );
+    chosenCard.effect();
+    updatePlayerInfo();
 }
 
 function removeRandomCrops(amountToRemove) {
@@ -344,6 +344,7 @@ function removeRandomCrops(amountToRemove) {
     let availableCrops = Object.keys(player1.crops).filter(
         (crop) => player1.crops[crop] > 0
     );
+    console.log("availableCrops: " + availableCrops);
 
     // Om det inte finns några grödor, avsluta funktionen
     if (availableCrops.length === 0) {
@@ -366,6 +367,22 @@ function removeRandomCrops(amountToRemove) {
         if (player1.crops[randomCrop] === 0) {
             availableCrops.splice(randomIndex, 1);
         }
+        let cropSpan = document.getElementById(randomCrop);
+        let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
+
+        if (cropSpan) {
+            cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
+        }
+
+        if (indicatorSpan) {
+            indicatorSpan.textContent = " -1";
+
+            // Ta bort meddelandet efter en viss tid
+            setTimeout(() => {
+                indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
+            }, 20000);
+        }
+        console.log(`-1 ${randomCrop}`);
     }
 
     console.log("Uppdaterade grödor:", player1.crops);
@@ -373,7 +390,10 @@ function removeRandomCrops(amountToRemove) {
 
 function addRandomCrops(amountToAdd) {
     // Lista över grödor som kan läggas till
-    let availableCrops = Object.keys(player1.crops);
+    let availableCrops = Object.keys(player1.crops).filter(
+        (crop) => player1.crops[crop] > 0
+    );
+    console.log("availableCrops: " + availableCrops);
 
     // Lägg till "amountToAdd" grödor slumpmässigt
     for (let i = 0; i < amountToAdd; i++) {
