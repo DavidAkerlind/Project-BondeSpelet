@@ -329,7 +329,7 @@ function cardDay(placeOnBoard, season) {
     //let randomIndexForCard = Math.floor(
     //    Math.random() * cardsInRightSeason.length         denna är det som ranomiserar vilet kort man får
     // );
-    let randomIndexForCard = 2; // denna väljer just nu vilket kort man får
+    let randomIndexForCard = 1; // denna väljer just nu vilket kort man får
     let chosenCard = cardsInRightSeason[randomIndexForCard];
 
     console.log(
@@ -367,21 +367,22 @@ function removeRandomCrops(amountToRemove) {
         if (player1.crops[randomCrop] === 0) {
             availableCrops.splice(randomIndex, 1);
         }
+
         let cropSpan = document.getElementById(randomCrop);
-        let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
+        let indicatorSpan = document.createElement("span"); // här vill jag skapa ett span element som sak ligga i cropspan
 
-        if (cropSpan) {
-            cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
-        }
+        indicatorSpan.textContent = "-1";
+        indicatorSpan.style.backgroundColor = "rgb(240, 141, 141)";
 
-        if (indicatorSpan) {
-            indicatorSpan.textContent = " -" + amountToRemove;
-            indicatorSpan.style.backgroundColor = "rgb(240, 141, 141)";
-            // Ta bort meddelandet efter en viss tid
-            setTimeout(() => {
-                indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
-            }, 20000);
-        }
+        console.log(
+            `randomCrop: ${randomCrop} cropspan: ${cropSpan} indicatorSpan: ${indicatorSpan}`
+        );
+        cropSpan.appendChild(indicatorSpan);
+
+        setTimeout(() => {
+            indicatorSpan.textContent = "";
+        }, 5000);
+
         console.log(`-1 ${randomCrop}`);
     }
 
@@ -404,22 +405,22 @@ function addRandomCrops(amountToAdd) {
         // Lägg till en enhet av den slumpmässiga grödan
         player1.crops[randomCrop]++;
 
-        let cropSpan = document.getElementById(randomCrop);
-        let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
+        // let cropSpan = document.getElementById(randomCrop);
+        // let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
 
-        if (cropSpan) {
-            cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
-        }
+        // if (cropSpan) {
+        //     cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
+        // }
 
-        if (indicatorSpan) {
-            indicatorSpan.textContent = " +" + amountToAdd;
-            indicatorSpan.style.backgroundColor = "rgb(144, 240, 141)";
+        // if (indicatorSpan) {
+        //     indicatorSpan.textContent = " +" + amountToAdd;
+        //     indicatorSpan.style.backgroundColor = "rgb(144, 240, 141)";
 
-            // Ta bort meddelandet efter en viss tid
-            setTimeout(() => {
-                indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
-            }, 20000);
-        }
+        //     // Ta bort meddelandet efter en viss tid
+        //     setTimeout(() => {
+        //         indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
+        //     }, 5000);
+        // }
         console.log(`+1 ${randomCrop}`);
     }
 
