@@ -112,20 +112,27 @@ const eventCards = {
 
                 if (player1.hasInsurance) {
                     player1.money += cost;
+                    cardDaytThirdMessage.style.backgroundColor =
+                        "rgb(144, 240, 141)";
                     cardDaytThirdMessage.textContent = `Du har försäkring! Eftersom har ${player1.farmType} får du ${cost} kr från banken.`;
                     console.log(
                         `Du har försäkring! Eftersom har ${player1.farmType} får du ${cost} kr från banken.`
                     );
                 } else {
                     player1.money -= cost;
-
+                    cardDaytThirdMessage.style.backgroundColor =
+                        "rgb(240, 141, 141)";
+                    cardDaytThirdMessage.textContent = `Ingen försäkring! Du betalar ${cost} kr själv.`;
                     console.log(
                         `Ingen försäkring! Du betalar ${cost} kr själv.`
                     );
                 }
-                console.log(
-                    `Spelarens pengar efter branden: ${player1.money} kr`
-                );
+                setTimeout(() => {
+                    cardDaytThirdMessage.textContent = `Spelarens pengar efter branden: ${player1.money} kr`;
+                    console.log(
+                        `Dina pengar efter branden: ${player1.money} kr`
+                    );
+                }, 6000);
             },
         },
     ],
