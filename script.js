@@ -38,7 +38,7 @@ let cardDayMessage = document.getElementById("cardDayMessage");
 
 let rollDiceSection = document.getElementById("rollDiceSection");
 
-let cardDaySecondMessage = document.getElementById("cardDaySecondMessage");
+let cardDayCardMessage = document.getElementById("cardDayCardMessage");
 
 let cardDaytThirdMessage = document.getElementById("cardDaytThirdMessage");
 
@@ -84,7 +84,7 @@ const eventCards = {
     ],
     3: [
         {
-            message: "Vädret var gynnsamt och dina grödor växte! +2 gröda",
+            message: "Vädret var gynnsamt och dina grödor växte! <br> +2 gröda",
             effect: () => addRandomCrops(2),
         },
         {
@@ -112,11 +112,13 @@ const eventCards = {
 
                 if (player1.hasInsurance) {
                     player1.money += cost;
+                    cardDaytThirdMessage.textContent = `Du har försäkring! Eftersom har ${player1.farmType} får du ${cost} kr från banken.`;
                     console.log(
-                        `Du har försäkring! Du får ${cost} kr från banken.`
+                        `Du har försäkring! Eftersom har ${player1.farmType} får du ${cost} kr från banken.`
                     );
                 } else {
                     player1.money -= cost;
+
                     console.log(
                         `Ingen försäkring! Du betalar ${cost} kr själv.`
                     );
@@ -153,7 +155,7 @@ const eventCards = {
 
 function rollDice() {
     //let roll = Math.floor(Math.random() * 6) + 1;
-    let roll = 12;
+    let roll = 79;
     player1.placeOnBoard = player1.placeOnBoard + roll;
 
     let rollMessageDiv = document.getElementById("rollMessage");
@@ -337,16 +339,18 @@ function cardDay(placeOnBoard, season) {
     //let randomIndexForCard = Math.floor(
     //    Math.random() * cardsInRightSeason.length         denna är det som ranomiserar vilet kort man får
     // );
-    let randomIndexForCard = 1; // denna väljer just nu vilket händelsekort man får
+    let randomIndexForCard = 3; // denna väljer just nu vilket händelsekort man får
     let chosenCard = cardsInRightSeason[randomIndexForCard];
 
     htmlEventCards.forEach((card) => {
         card.addEventListener("click", () => {
             // Döljer alla kort efter klick
+
             drawcardsDiv.style.display = "none";
-            cardDaySecondMessage.style.display = "block";
+            document.getElementById("cardDayCard").style.display = "flex";
+            cardDayCardMessage.style.display = "block";
             cardDaytThirdMessage.style.display = "block";
-            cardDaySecondMessage.textContent = chosenCard.message;
+            cardDayCardMessage.textContent = chosenCard.message;
             cardDayMessage.textContent = `Du har hamnat på ruta ${placeOnBoard} som är en röd dag i ${season
                 .substring(1)
                 .trim()}, och har dragit ett kort, detta är vad som händer: `;
@@ -355,7 +359,7 @@ function cardDay(placeOnBoard, season) {
 
             setTimeout(() => {
                 updatePlayerInfo();
-            }, 4100);
+            }, 2500);
         });
     });
 }
@@ -374,8 +378,8 @@ function removeRandomCrops(amountToRemove) {
         console.log("Inga grödor att ta bort!");
         return;
     }
-
-    cardDaytThirdMessage.textContent = `Tillgängliga grödor: ${availableCrops}`;
+    cardDaytThirdMessage.style.backgroundColor = "rgb(240, 141, 141)";
+    cardDaytThirdMessage.textContent = `Du mister ${amountToRemove} grödor`;
 
     // Ta bort "amountToRemove" grödor slumpmässigt
     for (let i = 0; i < amountToRemove; i++) {
@@ -396,10 +400,10 @@ function removeRandomCrops(amountToRemove) {
 
         let cropSpan = document.getElementById(randomCrop);
         let indicatorSpan = document.createElement("span");
+        indicatorSpan.className = "indicator-span";
 
         indicatorSpan.textContent = "-1";
         indicatorSpan.style.backgroundColor = "rgb(240, 141, 141)";
-
         console.log(
             `randomCrop: ${randomCrop} cropspan: ${cropSpan} indicatorSpan: ${indicatorSpan}`
         );
@@ -407,7 +411,7 @@ function removeRandomCrops(amountToRemove) {
 
         setTimeout(() => {
             indicatorSpan.textContent = "";
-        }, 5000);
+        }, 2400);
 
         console.log(`-1 ${randomCrop}`);
     }
@@ -421,6 +425,8 @@ function addRandomCrops(amountToAdd) {
         (crop) => player1.crops[crop] > 0
     );
     console.log("availableCrops: " + availableCrops);
+    cardDaytThirdMessage.style.backgroundColor = "rgb(144, 240, 141)";
+    cardDaytThirdMessage.textContent = `Du får +${amountToAdd} gröda`;
 
     // Lägg till "amountToAdd" grödor slumpmässigt
     for (let i = 0; i < amountToAdd; i++) {
@@ -431,22 +437,26 @@ function addRandomCrops(amountToAdd) {
         // Lägg till en enhet av den slumpmässiga grödan
         player1.crops[randomCrop]++;
 
-        // let cropSpan = document.getElementById(randomCrop);
-        // let indicatorSpan = cropSpan.nextElementSibling; // Hitta "addedCropsIndicator"
+        // Ta bort grödan från listan om den nu är tom
+        if (player1.crops[randomCrop] === 0) {
+            availableCrops.splice(randomIndex, 1);
+        }
 
-        // if (cropSpan) {
-        //     cropSpan.textContent = player1.crops[randomCrop]; // Uppdatera antalet
-        // }
+        let cropSpan = document.getElementById(randomCrop);
+        let indicatorSpan = document.createElement("span");
 
-        // if (indicatorSpan) {
-        //     indicatorSpan.textContent = " +" + amountToAdd;
-        //     indicatorSpan.style.backgroundColor = "rgb(144, 240, 141)";
+        indicatorSpan.textContent = "+1";
+        indicatorSpan.style.backgroundColor = "rgb(144, 240, 141)";
 
-        //     // Ta bort meddelandet efter en viss tid
-        //     setTimeout(() => {
-        //         indicatorSpan.textContent = ""; // Rensa efter 2 sekunder
-        //     }, 5000);
-        // }
+        console.log(
+            `randomCrop: ${randomCrop} cropspan: ${cropSpan} indicatorSpan: ${indicatorSpan}`
+        );
+        cropSpan.appendChild(indicatorSpan);
+
+        setTimeout(() => {
+            indicatorSpan.textContent = "";
+        }, 5000);
+
         console.log(`+1 ${randomCrop}`);
     }
 

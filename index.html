@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Bondespelet</title>
         <link rel="stylesheet" href="./style.css" />
+        <script type="module" src="./script.js"></script>
     </head>
     <body>
         <h1>Bondespelet</h1>
@@ -40,10 +41,12 @@
         <div id="cardDay" style="display: none">
             <h3>Röd dag - Dra kort!</h3>
             <div id="cardDayMessage" class="message"></div>
-            <div
-                id="cardDaySecondMessage"
-                class="message"
-                style="display: none"></div>
+            <div id="cardDayCard" class="cardDayCard">
+                <div
+                    id="cardDayCardMessage"
+                    class="message card-message"
+                    style="display: none"></div>
+            </div>
             <div
                 id="cardDaytThirdMessage"
                 class="message"
@@ -70,6 +73,5 @@
                 <p class="crops">Råg: <span id="rag">0</span></p>
             </div>
         </div>
-        <script src="./script.js"></script>
     </body>
 </html>
