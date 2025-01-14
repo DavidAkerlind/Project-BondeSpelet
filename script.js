@@ -6,7 +6,7 @@
 let player1 = {
     name: "Spelare 1",
     money: 10000,
-    crops: { potatis: 0, betor: 2, korn: 1, vete: 0, råg: 0 },
+    crops: { potatis: 4, betor: 0, korn: 0, vete: 0, råg: 0 },
     farmType: "Torp",
     placeOnBoard: 0,
     hasInsurance: true,
@@ -37,6 +37,10 @@ let plantingMessage = document.getElementById("plantingMessage");
 let cardDayMessage = document.getElementById("cardDayMessage");
 
 let rollDiceSection = document.getElementById("rollDiceSection");
+
+let cardDaySecondMessage = document.getElementById("cardDaySecondMessage");
+
+let cardDaytThirdMessage = document.getElementById("cardDaytThirdMessage");
 
 const eventCards = {
     1: [
@@ -314,6 +318,7 @@ function checkSeason(placeOnBoard) {
 
 function cardDay(placeOnBoard, season) {
     document.getElementById("cardDay").style.display = "block";
+
     rollDiceSection.style.display = "none";
     console.log("cardDay Starts here season: " + season);
 
@@ -325,18 +330,34 @@ function cardDay(placeOnBoard, season) {
         .trim()}, och får dra ett händelsekort! `;
     console.log(`Du är i ${season.substring(1).trim()}`);
 
-    let cardsInRightSeason = eventCards[seasonNowNumber];
+    let htmlEventCards = document.querySelectorAll(".eventCard");
+    let drawcardsDiv = document.getElementById("drawcards");
+
+    let cardsInRightSeason = eventCards[seasonNowNumber]; // denna är alla kort i rätt säsong
     //let randomIndexForCard = Math.floor(
     //    Math.random() * cardsInRightSeason.length         denna är det som ranomiserar vilet kort man får
     // );
-    let randomIndexForCard = 1; // denna väljer just nu vilket kort man får
+    let randomIndexForCard = 1; // denna väljer just nu vilket händelsekort man får
     let chosenCard = cardsInRightSeason[randomIndexForCard];
 
-    console.log(
-        `randomIndexForCard: ${randomIndexForCard} cardsInRightSeason: ${cardsInRightSeason} chosenCard: ${chosenCard} message: ${chosenCard.message} }`
-    );
-    chosenCard.effect();
-    updatePlayerInfo();
+    htmlEventCards.forEach((card) => {
+        card.addEventListener("click", () => {
+            // Döljer alla kort efter klick
+            drawcardsDiv.style.display = "none";
+            cardDaySecondMessage.style.display = "block";
+            cardDaytThirdMessage.style.display = "block";
+            cardDaySecondMessage.textContent = chosenCard.message;
+            cardDayMessage.textContent = `Du har hamnat på ruta ${placeOnBoard} som är en röd dag i ${season
+                .substring(1)
+                .trim()}, och har dragit ett kort, detta är vad som händer: `;
+            console.log(`${card.id} klickades!`);
+            chosenCard.effect();
+
+            setTimeout(() => {
+                updatePlayerInfo();
+            }, 4100);
+        });
+    });
 }
 
 function removeRandomCrops(amountToRemove) {
@@ -344,17 +365,22 @@ function removeRandomCrops(amountToRemove) {
     let availableCrops = Object.keys(player1.crops).filter(
         (crop) => player1.crops[crop] > 0
     );
+
     console.log("availableCrops: " + availableCrops);
 
     // Om det inte finns några grödor, avsluta funktionen
     if (availableCrops.length === 0) {
+        cardDaytThirdMessage.textContent = "Inga grödor att ta bort!";
         console.log("Inga grödor att ta bort!");
         return;
     }
 
+    cardDaytThirdMessage.textContent = `Tillgängliga grödor: ${availableCrops}`;
+
     // Ta bort "amountToRemove" grödor slumpmässigt
     for (let i = 0; i < amountToRemove; i++) {
         if (availableCrops.length === 0) break; // Avsluta om inga grödor finns kvar
+        console.log("availableCrops: " + availableCrops);
 
         // Slumpa en gröda från de tillgängliga
         let randomIndex = Math.floor(Math.random() * availableCrops.length);
@@ -369,7 +395,7 @@ function removeRandomCrops(amountToRemove) {
         }
 
         let cropSpan = document.getElementById(randomCrop);
-        let indicatorSpan = document.createElement("span"); // här vill jag skapa ett span element som sak ligga i cropspan
+        let indicatorSpan = document.createElement("span");
 
         indicatorSpan.textContent = "-1";
         indicatorSpan.style.backgroundColor = "rgb(240, 141, 141)";
