@@ -360,7 +360,7 @@ function cardDay(placeOnBoard, season) {
             cardDayCardMessage.textContent = chosenCard.message;
             cardDayMessage.textContent = `Du har hamnat på ruta ${placeOnBoard} som är en röd dag i ${season
                 .substring(1)
-                .trim()}, och har dragit ett kort, detta är vad som händer: `;
+                .trim()}, och har dragit ett kort, kortet lyder: `;
             console.log(`${card.id} klickades!`);
             chosenCard.effect();
 
